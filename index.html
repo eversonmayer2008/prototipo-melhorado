@@ -402,7 +402,124 @@
             font-size: 0.9rem;
         }
         
-        /* Chat e IA - MELHORIAS */
+        /* Modal de Resolução */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: var(--card);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--error);
+        }
+        
+        .solution-area {
+            margin-bottom: 1.5rem;
+        }
+        
+        .solution-step {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: 6px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .answer-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: var(--card);
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        
+        .answer-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .feedback {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: rgba(39, 174, 96, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background-color: rgba(231, 76, 60, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+            display: block;
+        }
+        
+        .explanation-content {
+            line-height: 1.8;
+        }
+        
+        /* Chat e IA */
         .chat-container {
             display: flex;
             flex-direction: column;
@@ -425,9 +542,8 @@
         .message {
             padding: 0.8rem 1rem;
             border-radius: 6px;
-            max-width: 85%;
+            max-width: 80%;
             animation: messageSlide 0.3s ease;
-            position: relative;
         }
         
         @keyframes messageSlide {
@@ -449,30 +565,6 @@
             border: 1px solid var(--border);
         }
         
-        .message-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-        }
-        
-        .message-action {
-            background: none;
-            border: none;
-            color: var(--accent);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .message-action:hover {
-            background-color: rgba(52, 152, 219, 0.1);
-        }
-        
         .math-expression {
             background-color: var(--card);
             padding: 0.5rem;
@@ -480,7 +572,6 @@
             margin: 0.5rem 0;
             font-family: 'Times New Roman', serif;
             border: 1px solid var(--border);
-            display: inline-block;
         }
         
         .chat-input-container {
@@ -514,16 +605,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s;
         }
         
         .send-btn:hover {
             background-color: var(--primary);
-        }
-        
-        .send-btn:disabled {
-            background-color: var(--border);
-            cursor: not-allowed;
         }
         
         .typing-indicator {
@@ -647,142 +732,138 @@
             color: var(--accent);
         }
         
-        .ai-options {
+        .topic-selector {
             display: flex;
-            flex-wrap: wrap;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
         
-        .ai-option {
+        .topic-btn {
             background-color: var(--card);
-            color: var(--accent);
-            border: 1px solid var(--accent);
+            color: var(--text);
+            border: 2px solid var(--border);
             padding: 0.5rem 1rem;
             border-radius: 20px;
-            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-weight: 500;
         }
         
-        .ai-option:hover {
+        .topic-btn.active {
             background-color: var(--accent);
             color: white;
+            border-color: var(--accent);
         }
         
-        .visual-explanation {
-            margin: 1rem 0;
-            padding: 1rem;
-            background-color: var(--light);
-            border-radius: 6px;
-            border: 1px solid var(--border);
+        .topic-btn:hover {
+            border-color: var(--accent);
         }
         
-        .visual-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
+        /* Página de Conteúdos */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
         
-        .visual-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 150px;
-            background-color: var(--card);
-            border-radius: 4px;
-            padding: 1rem;
-            margin-top: 0.5rem;
+        .content-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
         }
         
-        .triangle {
-            width: 0;
-            height: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-bottom: 100px solid var(--accent);
-            position: relative;
+        .content-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
         }
         
-        .triangle-label {
-            position: absolute;
-            font-size: 0.7rem;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .triangle-a {
-            bottom: -110px;
-            left: -10px;
-        }
-        
-        .triangle-b {
-            bottom: -50px;
-            left: -60px;
-        }
-        
-        .triangle-c {
-            bottom: -50px;
-            right: -60px;
-        }
-        
-        .chat-header {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
+        .content-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
             margin-bottom: 1rem;
         }
         
-        .ai-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent), #2980b9);
+        .content-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .content-description {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Página de Perfil */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: var(--accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
+            font-size: 2.5rem;
+            font-weight: bold;
         }
         
-        .ai-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--success);
+        .profile-info h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
         
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--success);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
         
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .message-time {
-            font-size: 0.7rem;
+        footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--border);
+            padding: 1.5rem 2rem;
+            text-align: center;
             color: var(--secondary);
-            margin-top: 0.3rem;
-            text-align: right;
+            margin-top: 2rem;
         }
         
-        .assistant-message .message-time {
-            text-align: left;
+        /* Scrollbar personalizado */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
         }
         
-        /* Restante do CSS permanece igual */
-        /* ... (outros estilos) ... */
+        .chat-messages::-webkit-scrollbar-track {
+            background: var(--light);
+            border-radius: 4px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
         
         /* Responsividade */
         @media (max-width: 768px) {
@@ -823,12 +904,17 @@
                 grid-template-columns: 1fr;
             }
             
-            .message {
-                max-width: 90%;
+            .profile-stats {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .math-tools {
-                justify-content: center;
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
             }
         }
     </style>
@@ -874,6 +960,36 @@
             </div>
         </div>
     </header>
+
+    <!-- Modal de Resolução -->
+    <div class="modal" id="solutionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Resolução do Problema</h2>
+                <button class="close-modal" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modalContent">
+                <!-- Conteúdo será carregado dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Explicação -->
+    <div class="modal" id="explanationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="explanationTitle">Explicação Detalhada</h2>
+                <button class="close-modal" onclick="closeExplanationModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="explanationContent">
+                <!-- Conteúdo será carregado dinamicamente -->
+            </div>
+        </div>
+    </div>
 
     <!-- Página Dashboard -->
     <div class="page active" id="dashboard-page">
@@ -940,17 +1056,9 @@
                 
                 <div class="assistant-area">
                     <div class="card">
-                        <div class="chat-header">
-                            <div class="ai-avatar">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <div>
-                                <h2>Assistente FocoTotal IA</h2>
-                                <div class="ai-status">
-                                    <div class="status-dot"></div>
-                                    <span>Online - Pronto para ajudar</span>
-                                </div>
-                            </div>
+                        <div class="card-header">
+                            <i class="fas fa-robot"></i>
+                            <h2>Assistente FocoTotal</h2>
                         </div>
                         
                         <div class="chat-container">
@@ -962,22 +1070,16 @@
                                         <li>✅ Explicação de conceitos complexos</li>
                                         <li>✅ Demonstrações matemáticas</li>
                                         <li>✅ Criação de exercícios personalizados</li>
-                                        <li>✅ Visualizações gráficas e geométricas</li>
                                     </ul>
-                                    <p>Como posso ajudá-lo hoje?</p>
-                                    
                                     <div class="suggestions">
                                         <div class="suggestion-chip" onclick="sendSuggestion('Resolva a equação x² - 5x + 6 = 0')">Equação Quadrática</div>
                                         <div class="suggestion-chip" onclick="sendSuggestion('Explique o Teorema de Pitágoras')">Teorema de Pitágoras</div>
                                         <div class="suggestion-chip" onclick="sendSuggestion('Calcule a derivada de sen(x)cos(x)')">Derivada</div>
-                                        <div class="suggestion-chip" onclick="sendSuggestion('Crie um exercício de probabilidade')">Exercício Personalizado</div>
                                     </div>
-                                    <div class="message-time" id="message-time-0">Agora</div>
                                 </div>
                             </div>
                             
                             <div class="math-tools">
-                                <div style="width: 100%; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--secondary);">Ferramentas Matemáticas:</div>
                                 <button class="math-tool" onclick="insertSymbol('+')">+</button>
                                 <button class="math-tool" onclick="insertSymbol('-')">-</button>
                                 <button class="math-tool" onclick="insertSymbol('×')">×</button>
@@ -990,15 +1092,11 @@
                                 <button class="math-tool" onclick="insertSymbol('∞')">∞</button>
                                 <button class="math-tool" onclick="insertSymbol('∫')">∫</button>
                                 <button class="math-tool" onclick="insertSymbol('∑')">∑</button>
-                                <button class="math-tool" onclick="insertSymbol('θ')">θ</button>
-                                <button class="math-tool" onclick="insertSymbol('α')">α</button>
-                                <button class="math-tool" onclick="insertSymbol('β')">β</button>
-                                <button class="math-tool" onclick="insertSymbol('γ')">γ</button>
                             </div>
                             
                             <div class="chat-input-container">
                                 <input type="text" class="chat-input" id="user-input" placeholder="Digite sua pergunta matemática..." onkeypress="handleKeyPress(event)">
-                                <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                                <button class="send-btn" onclick="sendMessage()">
                                     <i class="fas fa-paper-plane"></i>
                                 </button>
                             </div>
@@ -1009,8 +1107,183 @@
         </div>
     </div>
 
-    <!-- Restante do HTML permanece igual -->
-    <!-- ... (outras páginas) ... -->
+    <!-- Página Conteúdos -->
+    <div class="page" id="conteudos-page">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-book"></i>
+                    <h2>Conteúdos de Matemática</h2>
+                </div>
+                
+                <div class="content-grid">
+                    <div class="content-card" onclick="openContent('algebra')">
+                        <div class="content-icon">
+                            <i class="fas fa-superscript"></i>
+                        </div>
+                        <div class="content-title">Álgebra</div>
+                        <div class="content-description">
+                            Equações, polinômios, sistemas lineares, números complexos e teoria dos conjuntos.
+                        </div>
+                    </div>
+                    
+                    <div class="content-card" onclick="openContent('geometria')">
+                        <div class="content-icon">
+                            <i class="fas fa-shapes"></i>
+                        </div>
+                        <div class="content-title">Geometria</div>
+                        <div class="content-description">
+                            Formas geométricas, teoremas, trigonometria, geometria analítica e espacial.
+                        </div>
+                    </div>
+                    
+                    <div class="content-card" onclick="openContent('calculo')">
+                        <div class="content-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="content-title">Cálculo</div>
+                        <div class="content-description">
+                            Limites, derivadas, integrais, séries e equações diferenciais.
+                        </div>
+                    </div>
+                    
+                    <div class="content-card" onclick="openContent('probabilidade')">
+                        <div class="content-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="content-title">Probabilidade</div>
+                        <div class="content-description">
+                            Estatística, distribuições, análise combinatória e inferência estatística.
+                        </div>
+                    </div>
+                    
+                    <div class="content-card" onclick="openContent('numeros')">
+                        <div class="content-icon">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <div class="content-title">Teoria dos Números</div>
+                        <div class="content-description">
+                            Números primos, congruências, divisibilidade e criptografia.
+                        </div>
+                    </div>
+                    
+                    <div class="content-card" onclick="openContent('logica')">
+                        <div class="content-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="content-title">Lógica Matemática</div>
+                        <div class="content-description">
+                            Proposições, tabelas verdade, quantificadores e métodos de prova.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página Exercícios -->
+    <div class="page" id="exercicios-page">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-pencil-alt"></i>
+                    <h2>Exercícios Práticos</h2>
+                </div>
+                
+                <div class="topic-selector">
+                    <div class="topic-btn active" data-topic="all">Todos</div>
+                    <div class="topic-btn" data-topic="algebra">Álgebra</div>
+                    <div class="topic-btn" data-topic="geometry">Geometria</div>
+                    <div class="topic-btn" data-topic="calculus">Cálculo</div>
+                    <div class="topic-btn" data-topic="trigonometry">Trigonometria</div>
+                    <div class="topic-btn" data-topic="probability">Probabilidade</div>
+                </div>
+                
+                <div class="problems-list" id="exercises-list">
+                    <!-- Exercícios serão carregados aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página Perfil -->
+    <div class="page" id="perfil-page">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-user"></i>
+                    <h2>Meu Perfil</h2>
+                </div>
+                
+                <div class="profile-header">
+                    <div class="profile-avatar">JS</div>
+                    <div class="profile-info">
+                        <h2>João Silva</h2>
+                        <p style="color: var(--secondary); margin-bottom: 1rem;">Estudante de Engenharia - Nível Avançado</p>
+                        <div class="btn btn-outline btn-small">
+                            <i class="fas fa-edit"></i> Editar Perfil
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Dias de Estudo</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">Exercícios Resolvidos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">87%</div>
+                        <div class="stat-label">Taxa de Acerto</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Conquistas</div>
+                    </div>
+                </div>
+                
+                <div class="card-header" style="margin-top: 2rem;">
+                    <i class="fas fa-trophy"></i>
+                    <h2>Conquistas</h2>
+                </div>
+                
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="content-icon" style="color: var(--warning);">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="content-title">Primeiros Passos</div>
+                        <div class="content-description">
+                            Resolveu o primeiro exercício no FocoTotal
+                        </div>
+                    </div>
+                    
+                    <div class="content-card">
+                        <div class="content-icon" style="color: var(--success);">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="content-title">Mestre da Álgebra</div>
+                        <div class="content-description">
+                            Completou todos os exercícios de álgebra
+                        </div>
+                    </div>
+                    
+                    <div class="content-card">
+                        <div class="content-icon" style="color: var(--accent);">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="content-title">Sequência Perfeita</div>
+                        <div class="content-description">
+                            10 exercícios resolvidos sem erros
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <p>FocoTotal &copy; 2023 - Plataforma de Estudos de Matemática</p>
@@ -1042,6 +1315,11 @@
             document.getElementById('navMenu').classList.remove('active');
         }
 
+        function openContent(topic) {
+            alert(`Abrindo conteúdo de ${topic}`);
+            // Em uma implementação real, isso carregaria o conteúdo específico
+        }
+
         // ===== SISTEMA DE TEMA =====
         function toggleDarkMode() {
             const body = document.body;
@@ -1061,24 +1339,451 @@
             }
         }
 
-        // ===== MELHORIAS NO ASSISTENTE IA =====
-        let chatHistory = [];
-        let isAIThinking = false;
+        // ===== DADOS E ESTADO =====
+        const predefinedProblems = [
+            {
+                id: 1,
+                title: "Equação Quadrática",
+                topic: "algebra",
+                difficulty: "medium",
+                text: "Resolva a equação: $x^2 - 5x + 6 = 0$",
+                solution: {
+                    steps: [
+                        "Escreva a equação: $x^2 - 5x + 6 = 0$",
+                        "Identifique os coeficientes: a = 1, b = -5, c = 6",
+                        "Calcule o discriminante: $\\Delta = b^2 - 4ac = (-5)^2 - 4(1)(6) = 25 - 24 = 1$",
+                        "Aplique a fórmula quadrática: $x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$",
+                        "Calcule as raízes: $x = \\frac{5 \\pm 1}{2}$",
+                        "Portanto: $x_1 = \\frac{5 + 1}{2} = 3$ e $x_2 = \\frac{5 - 1}{2} = 2$"
+                    ],
+                    answer: "x = 2 ou x = 3"
+                },
+                explanation: "Uma equação quadrática é uma equação polinomial de segundo grau. Para resolvê-la, podemos usar fatoração, completar quadrados ou a fórmula quadrática. Neste caso, a equação pode ser fatorada como $(x-2)(x-3)=0$, o que nos dá diretamente as soluções x=2 e x=3."
+            },
+            {
+                id: 2,
+                title: "Teorema de Pitágoras",
+                topic: "geometry",
+                difficulty: "easy",
+                text: "Em um triângulo retângulo, se os catetos medem 3 e 4, qual é a medida da hipotenusa?",
+                solution: {
+                    steps: [
+                        "Identifique os catetos: a = 3, b = 4",
+                        "Aplique o Teorema de Pitágoras: $a^2 + b^2 = c^2$",
+                        "Substitua os valores: $3^2 + 4^2 = c^2$",
+                        "Calcule: $9 + 16 = c^2$",
+                        "Some: $25 = c^2$",
+                        "Calcule a raiz quadrada: $c = \\sqrt{25} = 5$"
+                    ],
+                    answer: "5"
+                },
+                explanation: "O Teorema de Pitágoras estabelece que em um triângulo retângulo, o quadrado da hipotenusa é igual à soma dos quadrados dos catetos. Este teorema é fundamental na geometria e tem aplicações em diversas áreas como arquitetura, engenharia e física."
+            },
+            {
+                id: 3,
+                title: "Derivada de Função",
+                topic: "calculus",
+                difficulty: "hard",
+                text: "Calcule a derivada de $f(x) = \\sin(x)\\cos(x)$",
+                solution: {
+                    steps: [
+                        "Identifique a função: $f(x) = \\sin(x)\\cos(x)$",
+                        "Aplique a regra do produto: $(uv)' = u'v + uv'$",
+                        "Defina: $u = \\sin(x)$, $v = \\cos(x)$",
+                        "Calcule as derivadas: $u' = \\cos(x)$, $v' = -\\sin(x)$",
+                        "Aplique a fórmula: $f'(x) = \\cos(x)\\cos(x) + \\sin(x)(-\\sin(x))$",
+                        "Simplifique: $f'(x) = \\cos^2(x) - \\sin^2(x)$",
+                        "Use a identidade trigonométrica: $\\cos^2(x) - \\sin^2(x) = \\cos(2x)$"
+                    ],
+                    answer: "cos²(x) - sin²(x) ou cos(2x)"
+                },
+                explanation: "Para derivar o produto de duas funções, usamos a regra do produto. Neste caso, temos o produto de seno e cosseno. A derivada resulta em cos²(x) - sin²(x), que pode ser simplificada usando identidades trigonométricas para cos(2x)."
+            },
+            {
+                id: 4,
+                title: "Probabilidade Condicional",
+                topic: "probability",
+                difficulty: "medium",
+                text: "Se lançarmos dois dados, qual a probabilidade de obter soma 7, dado que o primeiro dado mostra 4?",
+                solution: {
+                    steps: [
+                        "Defina o evento condicionante: primeiro dado = 4",
+                        "Com o primeiro dado mostrando 4, precisamos que o segundo dado mostre 3 para soma 7",
+                        "O segundo dado tem 6 faces possíveis",
+                        "Apenas 1 dessas faces (o 3) resulta em soma 7",
+                        "Portanto, a probabilidade é 1/6"
+                    ],
+                    answer: "1/6"
+                },
+                explanation: "Probabilidade condicional é a probabilidade de um evento ocorrer dado que outro evento já ocorreu. Neste caso, sabendo que o primeiro dado mostra 4, restam apenas 6 possibilidades para o segundo dado, e apenas uma delas (o número 3) resulta em soma 7."
+            }
+        ];
 
-        // Função para obter o horário atual formatado
-        function getCurrentTime() {
-            const now = new Date();
-            return now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const exercises = [
+            {
+                id: 1,
+                title: "Sistema de Equações",
+                topic: "algebra",
+                difficulty: "medium",
+                text: "Resolva o sistema: $\\begin{cases} 2x + y = 5 \\\\ x - y = 1 \\end{cases}$",
+                solution: {
+                    steps: [
+                        "Some as duas equações: $(2x + y) + (x - y) = 5 + 1$",
+                        "Simplifique: $3x = 6$",
+                        "Resolva para x: $x = 2$",
+                        "Substitua x na segunda equação: $2 - y = 1$",
+                        "Resolva para y: $y = 1$"
+                    ],
+                    answer: "x = 2, y = 1"
+                },
+                explanation: "Para resolver sistemas de equações lineares, podemos usar métodos como substituição, eliminação ou matrizes. Neste caso, o método de eliminação é eficaz pois os coeficientes de y são opostos, permitindo cancelar y ao somar as equações."
+            },
+            {
+                id: 2,
+                title: "Área do Círculo",
+                topic: "geometry",
+                difficulty: "easy",
+                text: "Calcule a área de um círculo com raio 5 cm.",
+                solution: {
+                    steps: [
+                        "Use a fórmula da área do círculo: $A = \\pi r^2$",
+                        "Substitua o raio: $A = \\pi (5)^2$",
+                        "Calcule: $A = 25\\pi$",
+                        "Aproxime usando $\\pi \\approx 3.14$: $A \\approx 78.5$ cm²"
+                    ],
+                    answer: "25π cm² ou aproximadamente 78.5 cm²"
+                },
+                explanation: "A área de um círculo é calculada usando a fórmula A = πr², onde r é o raio. Esta fórmula é derivada do cálculo integral ou pode ser demonstrada dividindo o círculo em setores e rearranjando-os para formar um paralelogramo."
+            },
+            {
+                id: 3,
+                title: "Limite Fundamental",
+                topic: "calculus",
+                difficulty: "hard",
+                text: "Calcule $\\lim_{x \\to 0} \\frac{\\sin(x)}{x}$",
+                solution: {
+                    steps: [
+                        "Este é um limite fundamental em cálculo",
+                        "Podemos usar a Regra de L'Hôpital pois temos forma indeterminada 0/0",
+                        "Derive numerador e denominador: $\\frac{d}{dx}\\sin(x) = \\cos(x)$, $\\frac{d}{dx}x = 1$",
+                        "Aplique L'Hôpital: $\\lim_{x \\to 0} \\frac{\\cos(x)}{1}$",
+                        "Avalie o limite: $\\cos(0) = 1$"
+                    ],
+                    answer: "1"
+                },
+                explanation: "Este é um dos limites fundamentais em cálculo. Ele é importante porque aparece em muitas derivações e aplicações. Pode ser demonstrado geometricamente usando o círculo unitário ou através da série de Taylor para sen(x)."
+            },
+            {
+                id: 4,
+                title: "Lei dos Cossenos",
+                topic: "trigonometry",
+                difficulty: "medium",
+                text: "Em um triângulo com lados 5, 6 e 7, calcule o cosseno do maior ângulo.",
+                solution: {
+                    steps: [
+                        "Identifique o maior lado: 7 (oposto ao maior ângulo)",
+                        "Aplique a Lei dos Cossenos: $c^2 = a^2 + b^2 - 2ab\\cos(C)$",
+                        "Substitua: $7^2 = 5^2 + 6^2 - 2(5)(6)\\cos(C)$",
+                        "Calcule: $49 = 25 + 36 - 60\\cos(C)$",
+                        "Simplifique: $49 = 61 - 60\\cos(C)$",
+                        "Resolva: $60\\cos(C) = 61 - 49 = 12$",
+                        "Calcule: $\\cos(C) = \\frac{12}{60} = 0.2$"
+                    ],
+                    answer: "0.2"
+                },
+                explanation: "A Lei dos Cossenos generaliza o Teorema de Pitágoras para triângulos não retângulos. Ela relaciona os comprimentos dos lados de um triângulo com o cosseno de um de seus ângulos. É particularmente útil quando conhecemos os três lados e queremos encontrar um ângulo."
+            },
+            {
+                id: 5,
+                title: "Distribuição Binomial",
+                topic: "probability",
+                difficulty: "hard",
+                text: "Se lançamos uma moeda 10 vezes, qual a probabilidade de obter exatamente 6 caras?",
+                solution: {
+                    steps: [
+                        "Identifique os parâmetros: n = 10 tentativas, k = 6 sucessos, p = 0.5",
+                        "Use a fórmula binomial: $P(X=k) = C(n,k) \\cdot p^k \\cdot (1-p)^{n-k}$",
+                        "Calcule o coeficiente binomial: $C(10,6) = \\frac{10!}{6!4!} = 210$",
+                        "Substitua na fórmula: $P(X=6) = 210 \\cdot (0.5)^6 \\cdot (0.5)^4$",
+                        "Simplifique: $P(X=6) = 210 \\cdot (0.5)^{10}$",
+                        "Calcule: $P(X=6) = 210 \\cdot \\frac{1}{1024}$",
+                        "Simplifique: $P(X=6) = \\frac{210}{1024} = \\frac{105}{512} \\approx 0.205$"
+                    ],
+                    answer: "105/512 ou aproximadamente 0.205"
+                },
+                explanation: "A distribuição binomial modela o número de sucessos em uma sequência de n tentativas independentes, cada uma com probabilidade de sucesso p. É amplamente usada em estatística para modelar fenômenos com dois resultados possíveis (sucesso/fracasso)."
+            }
+        ];
+
+        // ===== FUNCIONALIDADES DO DASHBOARD =====
+        function loadDashboard() {
+            const problemsList = document.getElementById('problems-list');
+            problemsList.innerHTML = '';
+            
+            predefinedProblems.forEach(problem => {
+                const problemElement = document.createElement('div');
+                problemElement.className = 'problem-item';
+                problemElement.innerHTML = `
+                    <div class="problem-header">
+                        <div class="problem-title">${problem.title}</div>
+                        <div class="difficulty-badge ${problem.difficulty}">${problem.difficulty}</div>
+                    </div>
+                    <div class="problem-text">${problem.text}</div>
+                    <div class="problem-actions">
+                        <button class="btn btn-primary btn-small" onclick="solveProblem(${problem.id})">
+                            <i class="fas fa-play"></i> Resolver
+                        </button>
+                        <button class="btn btn-outline btn-small" onclick="explainProblem(${problem.id})">
+                            <i class="fas fa-lightbulb"></i> Explicação
+                        </button>
+                    </div>
+                `;
+                problemsList.appendChild(problemElement);
+            });
         }
 
-        // Função para adicionar mensagem ao chat
-        function addMessage(text, sender, messageId = null) {
+        function solveProblem(id) {
+            const problem = predefinedProblems.find(p => p.id === id);
+            if (problem) {
+                openSolutionModal(problem);
+            }
+        }
+
+        function explainProblem(id) {
+            const problem = predefinedProblems.find(p => p.id === id);
+            if (problem) {
+                openExplanationModal(problem);
+            }
+        }
+
+        // ===== FUNCIONALIDADES DOS EXERCÍCIOS =====
+        function loadExercises() {
+            const exercisesList = document.getElementById('exercises-list');
+            exercisesList.innerHTML = '';
+            
+            exercises.forEach(exercise => {
+                const exerciseElement = document.createElement('div');
+                exerciseElement.className = 'problem-item';
+                exerciseElement.innerHTML = `
+                    <div class="problem-header">
+                        <div class="problem-title">${exercise.title}</div>
+                        <div class="difficulty-badge ${exercise.difficulty}">${exercise.difficulty}</div>
+                    </div>
+                    <div class="problem-text">${exercise.text}</div>
+                    <div class="problem-actions">
+                        <button class="btn btn-primary btn-small" onclick="solveExercise(${exercise.id})">
+                            <i class="fas fa-play"></i> Resolver
+                        </button>
+                        <button class="btn btn-outline btn-small" onclick="explainExercise(${exercise.id})">
+                            <i class="fas fa-lightbulb"></i> Explicação
+                        </button>
+                    </div>
+                `;
+                exercisesList.appendChild(exerciseElement);
+            });
+            
+            // Adicionar event listeners aos filtros
+            document.querySelectorAll('.topic-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterExercises(this.dataset.topic);
+                });
+            });
+        }
+
+        function solveExercise(id) {
+            const exercise = exercises.find(e => e.id === id);
+            if (exercise) {
+                openSolutionModal(exercise);
+            }
+        }
+
+        function explainExercise(id) {
+            const exercise = exercises.find(e => e.id === id);
+            if (exercise) {
+                openExplanationModal(exercise);
+            }
+        }
+
+        function addToFavorites(id) {
+            alert(`Exercício ${id} adicionado aos favoritos!`);
+        }
+
+        function filterExercises(topic) {
+            const exercisesList = document.getElementById('exercises-list');
+            exercisesList.innerHTML = '';
+            
+            const filteredExercises = topic === 'all' 
+                ? exercises 
+                : exercises.filter(e => e.topic === topic);
+            
+            filteredExercises.forEach(exercise => {
+                const exerciseElement = document.createElement('div');
+                exerciseElement.className = 'problem-item';
+                exerciseElement.innerHTML = `
+                    <div class="problem-header">
+                        <div class="problem-title">${exercise.title}</div>
+                        <div class="difficulty-badge ${exercise.difficulty}">${exercise.difficulty}</div>
+                    </div>
+                    <div class="problem-text">${exercise.text}</div>
+                    <div class="problem-actions">
+                        <button class="btn btn-primary btn-small" onclick="solveExercise(${exercise.id})">
+                            <i class="fas fa-play"></i> Resolver
+                        </button>
+                        <button class="btn btn-outline btn-small" onclick="explainExercise(${exercise.id})">
+                            <i class="fas fa-lightbulb"></i> Explicação
+                        </button>
+                    </div>
+                `;
+                exercisesList.appendChild(exerciseElement);
+            });
+        }
+
+        // ===== MODAIS DE SOLUÇÃO E EXPLICAÇÃO =====
+        function openSolutionModal(problem) {
+            const modal = document.getElementById('solutionModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalTitle.textContent = `Resolução: ${problem.title}`;
+            
+            modalContent.innerHTML = `
+                <div class="problem-text">${problem.text}</div>
+                
+                <div class="solution-area">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Passo a Passo:</h3>
+                    ${problem.solution.steps.map((step, index) => `
+                        <div class="solution-step">
+                            <div class="step-title">Passo ${index + 1}:</div>
+                            <div>${step}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div style="margin: 1.5rem 0;">
+                    <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Resposta Final:</h3>
+                    <div class="math-expression">${problem.solution.answer}</div>
+                </div>
+                
+                <div class="problem-actions">
+                    <button class="btn btn-primary" onclick="closeModal()">
+                        <i class="fas fa-check"></i> Entendi
+                    </button>
+                    <button class="btn btn-outline" onclick="openExplanationModalFromSolution(${problem.id})">
+                        <i class="fas fa-lightbulb"></i> Ver Explicação Detalhada
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function openExplanationModal(problem) {
+            const modal = document.getElementById('explanationModal');
+            const explanationTitle = document.getElementById('explanationTitle');
+            const explanationContent = document.getElementById('explanationContent');
+            
+            explanationTitle.textContent = `Explicação: ${problem.title}`;
+            
+            explanationContent.innerHTML = `
+                <div class="problem-text">${problem.text}</div>
+                
+                <div class="explanation-content">
+                    <h3 style="margin: 1.5rem 0 1rem 0; color: var(--primary);">Conceito por Trás do Problema:</h3>
+                    <p>${problem.explanation}</p>
+                    
+                    <div class="step-by-step">
+                        <h4 style="margin-bottom: 1rem;">Resumo da Solução:</h4>
+                        ${problem.solution.steps.map((step, index) => `
+                            <div class="step">
+                                <div class="step-number">${index + 1}</div>
+                                <div>${step}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 0.5rem;">Resposta Final:</h4>
+                        <div class="math-expression">${problem.solution.answer}</div>
+                    </div>
+                </div>
+                
+                <div class="problem-actions" style="margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="closeExplanationModal()">
+                        <i class="fas fa-check"></i> Entendi
+                    </button>
+                    <button class="btn btn-outline" onclick="openSolutionModalFromExplanation(${problem.id})">
+                        <i class="fas fa-play"></i> Ver Resolução Passo a Passo
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function openExplanationModalFromSolution(id) {
+            closeModal();
+            const problem = [...predefinedProblems, ...exercises].find(p => p.id === id);
+            if (problem) {
+                setTimeout(() => openExplanationModal(problem), 300);
+            }
+        }
+
+        function openSolutionModalFromExplanation(id) {
+            closeExplanationModal();
+            const problem = [...predefinedProblems, ...exercises].find(p => p.id === id);
+            if (problem) {
+                setTimeout(() => openSolutionModal(problem), 300);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('solutionModal').classList.remove('active');
+        }
+
+        function closeExplanationModal() {
+            document.getElementById('explanationModal').classList.remove('active');
+        }
+
+        // ===== FUNCIONALIDADES DO CHAT =====
+        function sendMessage(message = null) {
+            const userInput = document.getElementById('user-input');
+            const messageText = message || userInput.value.trim();
+            
+            if (!messageText) return;
+            
+            // Adicionar mensagem do usuário
+            addMessage(messageText, 'user');
+            
+            // Limpar input
+            if (!message) userInput.value = '';
+            
+            // Simular resposta da IA
+            simulateAIResponse(messageText);
+        }
+
+        function sendSuggestion(text) {
+            document.getElementById('user-input').value = text;
+            sendMessage();
+        }
+
+        function insertSymbol(symbol) {
+            const userInput = document.getElementById('user-input');
+            userInput.value += symbol;
+            userInput.focus();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addMessage(text, sender) {
             const chatMessages = document.getElementById('chat-messages');
             const messageElement = document.createElement('div');
-            const messageIdValue = messageId || `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-            
             messageElement.className = `message ${sender}-message`;
-            messageElement.id = messageIdValue;
             
             // Processar expressões matemáticas
             let processedText = text;
@@ -1091,139 +1796,21 @@
                 );
             });
             
-            // Adicionar ações para mensagens do assistente
-            let actionsHTML = '';
-            if (sender === 'assistant') {
-                actionsHTML = `
-                    <div class="message-actions">
-                        <button class="message-action" onclick="copyMessage('${messageIdValue}')">
-                            <i class="fas fa-copy"></i> Copiar
-                        </button>
-                        <button class="message-action" onclick="regenerateResponse('${messageIdValue}')">
-                            <i class="fas fa-sync-alt"></i> Regenerar
-                        </button>
-                        <button class="message-action" onclick="explainFurther('${messageIdValue}')">
-                            <i class="fas fa-search-plus"></i> Detalhar
-                        </button>
-                    </div>
-                `;
-            }
-            
-            messageElement.innerHTML = `
-                ${processedText}
-                ${actionsHTML}
-                <div class="message-time">${getCurrentTime()}</div>
-            `;
-            
+            messageElement.innerHTML = processedText;
             chatMessages.appendChild(messageElement);
             
             // Scroll para o final
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            // Adicionar ao histórico
-            chatHistory.push({
-                id: messageIdValue,
-                text: text,
-                sender: sender,
-                timestamp: new Date()
-            });
-            
-            return messageIdValue;
         }
 
-        // Função para copiar mensagem
-        function copyMessage(messageId) {
-            const messageElement = document.getElementById(messageId);
-            const textToCopy = messageElement.textContent.replace(/CopiarRegenerarDetalhar/g, '').trim();
-            
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                // Feedback visual
-                const copyBtn = messageElement.querySelector('.fa-copy').closest('.message-action');
-                const originalHTML = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalHTML;
-                }, 2000);
-            });
-        }
-
-        // Função para regenerar resposta
-        function regenerateResponse(messageId) {
-            const messageIndex = chatHistory.findIndex(msg => msg.id === messageId);
-            if (messageIndex > 0) {
-                const previousMessage = chatHistory[messageIndex - 1];
-                if (previousMessage.sender === 'user') {
-                    // Remove a resposta atual
-                    document.getElementById(messageId).remove();
-                    chatHistory = chatHistory.filter(msg => msg.id !== messageId);
-                    
-                    // Envia a mensagem novamente
-                    sendMessage(previousMessage.text, true);
-                }
-            }
-        }
-
-        // Função para detalhar explicação
-        function explainFurther(messageId) {
-            const message = chatHistory.find(msg => msg.id === messageId);
-            if (message) {
-                sendMessage(`Explique com mais detalhes: ${message.text}`, true);
-            }
-        }
-
-        // Função para enviar mensagem
-        function sendMessage(message = null, isRegeneration = false) {
-            if (isAIThinking) return;
-            
-            const userInput = document.getElementById('user-input');
-            const messageText = message || userInput.value.trim();
-            
-            if (!messageText) return;
-            
-            // Adicionar mensagem do usuário
-            addMessage(messageText, 'user');
-            
-            // Limpar input se não for regeneração
-            if (!message) userInput.value = '';
-            
-            // Desabilitar botão de enviar
-            isAIThinking = true;
-            document.getElementById('send-btn').disabled = true;
-            
-            // Simular resposta da IA
-            simulateAIResponse(messageText, isRegeneration);
-        }
-
-        // Função para inserir símbolo matemático
-        function insertSymbol(symbol) {
-            const userInput = document.getElementById('user-input');
-            userInput.value += symbol;
-            userInput.focus();
-        }
-
-        // Função para enviar sugestão
-        function sendSuggestion(text) {
-            document.getElementById('user-input').value = text;
-            sendMessage();
-        }
-
-        // Função para lidar com pressionar Enter
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        }
-
-        // Função para simular resposta da IA
-        function simulateAIResponse(userMessage, isRegeneration = false) {
+        function simulateAIResponse(userMessage) {
             const chatMessages = document.getElementById('chat-messages');
             
             // Adicionar indicador de digitação
             const typingIndicator = document.createElement('div');
             typingIndicator.className = 'typing-indicator';
-            typingIndicator.id = 'typing-indicator';
             typingIndicator.innerHTML = `
-                Assistente FocoTotal está pensando
+                Assistente está digitando
                 <div class="typing-dots">
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
@@ -1233,237 +1820,87 @@
             chatMessages.appendChild(typingIndicator);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
-            // Simular tempo de resposta mais realista
-            const thinkingTime = Math.random() * 1500 + 1000; // Entre 1 e 2.5 segundos
-            
+            // Simular tempo de resposta
             setTimeout(() => {
                 chatMessages.removeChild(typingIndicator);
                 
                 // Gerar resposta baseada na mensagem do usuário
-                const response = generateAIResponse(userMessage, isRegeneration);
-                addMessage(response, 'assistant');
+                let response = '';
                 
-                // Reabilitar botão de enviar
-                isAIThinking = false;
-                document.getElementById('send-btn').disabled = false;
-            }, thinkingTime);
-        }
-
-        // Função para gerar resposta da IA
-        function generateAIResponse(userMessage, isRegeneration) {
-            // Respostas pré-definidas para diferentes tipos de perguntas
-            let response = '';
-            
-            if (userMessage.includes('equação') || userMessage.includes('x²') || userMessage.includes('quadrática')) {
-                response = `
-                    <p>Vamos resolver a equação quadrática passo a passo:</p>
-                    <div class="step-by-step">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div>Escreva a equação: <div class="math-expression">x^2 - 5x + 6 = 0</div></div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div>Identifique os coeficientes: a = 1, b = -5, c = 6</div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div>Calcule o discriminante: <div class="math-expression">Δ = b² - 4ac = (-5)² - 4(1)(6) = 25 - 24 = 1</div></div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div>Aplique a fórmula quadrática: <div class="math-expression">x = [-b ± √Δ] / 2a</div></div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">5</div>
-                            <div>Calcule as raízes: <div class="math-expression">x = [5 ± 1] / 2</div></div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">6</div>
-                            <div>Portanto: <div class="math-expression">x₁ = (5 + 1)/2 = 3</div> e <div class="math-expression">x₂ = (5 - 1)/2 = 2</div></div>
-                        </div>
-                    </div>
-                    <p><strong>Resposta:</strong> As soluções são <div class="math-expression">x = 2</div> e <div class="math-expression">x = 3</div>.</p>
-                    
-                    <div class="ai-options">
-                        <div class="ai-option" onclick="sendSuggestion('Mostre graficamente esta equação')">
-                            <i class="fas fa-chart-line"></i> Ver Gráfico
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Explique o significado do discriminante')">
-                            <i class="fas fa-lightbulb"></i> Discriminante
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Resolva outra equação quadrática')">
-                            <i class="fas fa-calculator"></i> Novo Exercício
-                        </div>
-                    </div>
-                `;
-            } else if (userMessage.includes('Pitágoras')) {
-                response = `
-                    <p>O <strong>Teorema de Pitágoras</strong> estabelece que em um triângulo retângulo, o quadrado da hipotenusa é igual à soma dos quadrados dos catetos.</p>
-                    
-                    <div class="math-expression">a² + b² = c²</div>
-                    
-                    <p>Onde:</p>
-                    <ul>
-                        <li><strong>a</strong> e <strong>b</strong> são os catetos (lados que formam o ângulo reto)</li>
-                        <li><strong>c</strong> é a hipotenusa (lado oposto ao ângulo reto)</li>
-                    </ul>
-                    
-                    <div class="visual-explanation">
-                        <div class="visual-title">Representação Visual:</div>
-                        <div class="visual-content">
-                            <div class="triangle">
-                                <div class="triangle-label triangle-a">a</div>
-                                <div class="triangle-label triangle-b">b</div>
-                                <div class="triangle-label triangle-c">c</div>
+                if (userMessage.includes('equação') || userMessage.includes('x²')) {
+                    response = `
+                        <p>Vamos resolver a equação quadrática passo a passo:</p>
+                        <div class="step-by-step">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div>Escreva a equação: $x^2 - 5x + 6 = 0$</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div>Fatore a equação: $(x-2)(x-3) = 0$</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div>Encontre as raízes: $x = 2$ ou $x = 3$</div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <p>Este teorema é fundamental na geometria e tem aplicações em diversas áreas como arquitetura, engenharia, física e navegação.</p>
-                    
-                    <div class="ai-options">
-                        <div class="ai-option" onclick="sendSuggestion('Demonstre o Teorema de Pitágoras')">
-                            <i class="fas fa-shapes"></i> Demonstração
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Resolva um problema com o Teorema de Pitágoras')">
-                            <i class="fas fa-pencil-alt"></i> Exercício Prático
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Aplicações do Teorema de Pitágoras')">
-                            <i class="fas fa-rocket"></i> Aplicações
-                        </div>
-                    </div>
-                `;
-            } else if (userMessage.includes('derivada') || userMessage.includes('sen(x)cos(x)')) {
-                response = `
-                    <p>Vamos calcular a derivada de <div class="math-expression">f(x) = sen(x)cos(x)</div> usando a regra do produto:</p>
-                    
-                    <div class="step-by-step">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div>Identifique as funções: <div class="math-expression">u = sen(x)</div> e <div class="math-expression">v = cos(x)</div></div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div>Calcule as derivadas: <div class="math-expression">u' = cos(x)</div> e <div class="math-expression">v' = -sen(x)</div></div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div>Aplique a regra do produto: <div class="math-expression">(uv)' = u'v + uv'</div></div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div>Substitua: <div class="math-expression">f'(x) = cos(x)cos(x) + sen(x)(-sen(x))</div></div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">5</div>
-                            <div>Simplifique: <div class="math-expression">f'(x) = cos²(x) - sen²(x)</div></div>
-                        </div>
-                    </div>
-                    
-                    <p><strong>Resposta:</strong> <div class="math-expression">f'(x) = cos²(x) - sen²(x)</div></p>
-                    
-                    <p>Podemos simplificar ainda mais usando identidades trigonométricas:</p>
-                    <div class="math-expression">cos²(x) - sen²(x) = cos(2x)</div>
-                    
-                    <p>Portanto, <div class="math-expression">f'(x) = cos(2x)</div></p>
-                    
-                    <div class="ai-options">
-                        <div class="ai-option" onclick="sendSuggestion('Explique a regra do produto')">
-                            <i class="fas fa-graduation-cap"></i> Regra do Produto
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Mostre o gráfico desta função')">
-                            <i class="fas fa-chart-line"></i> Ver Gráfico
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Calcule outra derivada')">
-                            <i class="fas fa-calculator"></i> Novo Exercício
-                        </div>
-                    </div>
-                `;
-            } else if (userMessage.includes('exercício') || userMessage.includes('crie') || userMessage.includes('probabilidade')) {
-                response = `
-                    <p>Claro! Vou criar um exercício personalizado de probabilidade para você:</p>
-                    
-                    <div class="problem-text">
-                        <strong>Problema:</strong> Uma urna contém 5 bolas vermelhas, 3 bolas azuis e 2 bolas verdes. Se retirarmos 2 bolas aleatoriamente sem reposição, qual a probabilidade de:
-                        <ol>
-                            <li>Ambas serem vermelhas?</li>
-                            <li>Pelo menos uma ser azul?</li>
-                            <li>Uma ser vermelha e outra ser azul?</li>
-                        </ol>
-                    </div>
-                    
-                    <div class="ai-thinking">
-                        <p><i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Use conceitos de probabilidade condicional e combinações para resolver este problema.</p>
-                    </div>
-                    
-                    <p>Quer que eu resolva algum desses itens passo a passo?</p>
-                    
-                    <div class="ai-options">
-                        <div class="ai-option" onclick="sendSuggestion('Resolva o item 1 passo a passo')">
-                            <i class="fas fa-play"></i> Resolver Item 1
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Resolva o item 2 passo a passo')">
-                            <i class="fas fa-play"></i> Resolver Item 2
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Resolva o item 3 passo a passo')">
-                            <i class="fas fa-play"></i> Resolver Item 3
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Crie outro exercício de probabilidade')">
-                            <i class="fas fa-plus"></i> Novo Exercício
-                        </div>
-                    </div>
-                `;
-            } else if (userMessage.includes('gráfico') || userMessage.includes('grafico')) {
-                response = `
-                    <p>Entendi que você gostaria de uma representação gráfica. Infelizmente, não posso gerar imagens diretamente, mas posso descrever como seria o gráfico e dar instruções para construí-lo.</p>
-                    
-                    <p>Para visualizar funções matemáticas, recomendo usar:</p>
-                    <ul>
-                        <li><strong>GeoGebra:</strong> Ótimo para gráficos 2D e 3D</li>
-                        <li><strong>Desmos:</strong> Excelente para gráficos interativos</li>
-                        <li><strong>Python com Matplotlib:</strong> Para visualizações mais avançadas</li>
-                    </ul>
-                    
-                    <p>Posso ajudar explicando como seria o gráfico da função que você mencionou ou fornecendo as coordenadas importantes.</p>
-                    
-                    <div class="ai-options">
-                        <div class="ai-option" onclick="sendSuggestion('Descreva o gráfico de x² - 5x + 6')">
-                            <i class="fas fa-chart-line"></i> Descrever Gráfico
-                        </div>
-                        <div class="ai-option" onclick="sendSuggestion('Explique como fazer gráficos no GeoGebra')">
-                            <i class="fas fa-desktop"></i> Tutorial GeoGebra
-                        </div>
-                    </div>
-                `;
-            } else {
-                response = `
-                    <p>Entendi sua pergunta sobre <strong>"${userMessage}"</strong>. Aqui está uma explicação detalhada:</p>
-                    
-                    <div class="ai-thinking">
-                        <p>Com base no seu interesse, posso fornecer:</p>
+                        <p>Portanto, as soluções são $x = 2$ e $x = 3$.</p>
+                    `;
+                } else if (userMessage.includes('Pitágoras')) {
+                    response = `
+                        <p>O Teorema de Pitágoras estabelece que em um triângulo retângulo, o quadrado da hipotenusa é igual à soma dos quadrados dos catetos.</p>
+                        <div class="math-expression">a² + b² = c²</div>
+                        <p>Onde:</p>
                         <ul>
-                            <li>Explicação conceitual aprofundada</li>
-                            <li>Exemplos práticos e aplicações</li>
-                            <li>Exercícios relacionados para praticar</li>
-                            <li>Visualizações e analogias para melhor compreensão</li>
+                            <li>a e b são os catetos</li>
+                            <li>c é a hipotenusa</li>
                         </ul>
-                    </div>
-                    
-                    <p>Para um atendimento mais específico, você pode:</p>
-                    
-                    <div class="suggestions">
-                        <div class="suggestion-chip" onclick="sendSuggestion('Explique com exemplos práticos')">Exemplos Práticos</div>
-                        <div class="suggestion-chip" onclick="sendSuggestion('Mostre a aplicação disso')">Aplicações</div>
-                        <div class="suggestion-chip" onclick="sendSuggestion('Crie um exercício sobre isso')">Exercício</div>
-                        <div class="suggestion-chip" onclick="sendSuggestion('Explique de forma mais simples')">Explicação Simples</div>
-                    </div>
-                    
-                    <p>Ou me faça uma pergunta mais específica sobre o assunto!</p>
-                `;
-            }
-            
-            return response;
+                        <p>Este teorema é fundamental na geometria e tem aplicações em diversas áreas da matemática e física.</p>
+                    `;
+                } else if (userMessage.includes('derivada')) {
+                    response = `
+                        <p>Para calcular a derivada de $\\sin(x)\\cos(x)$, usaremos a regra do produto:</p>
+                        <div class="step-by-step">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div>Seja $f(x) = \\sin(x)$ e $g(x) = \\cos(x)$</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div>A regra do produto diz: $(fg)' = f'g + fg'$</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div>$f'(x) = \\cos(x)$ e $g'(x) = -\\sin(x)$</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div>Portanto: $(\\sin(x)\\cos(x))' = \\cos(x)\\cos(x) + \\sin(x)(-\\sin(x))$</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">5</div>
+                                <div>Simplificando: $\\cos^2(x) - \\sin^2(x)$</div>
+                            </div>
+                        </div>
+                        <p>Que também pode ser escrito como $\\cos(2x)$ usando identidades trigonométricas.</p>
+                    `;
+                } else {
+                    response = `
+                        <p>Entendi sua pergunta sobre "${userMessage}". Aqui está uma explicação detalhada:</p>
+                        <div class="ai-thinking">
+                            <p>Parece que você está interessado em um tópico de matemática. Posso fornecer uma explicação passo a passo, exemplos práticos e exercícios relacionados.</p>
+                        </div>
+                        <p>Você gostaria que eu:</p>
+                        <ul>
+                            <li>Forneça uma explicação mais detalhada?</li>
+                            <li>Resolva um problema específico?</li>
+                            <li>Crie exercícios práticos sobre este tema?</li>
+                        </ul>
+                    `;
+                }
+                
+                addMessage(response, 'assistant');
+            }, 2000);
         }
 
         // ===== INICIALIZAÇÃO =====
@@ -1484,33 +1921,31 @@
                 document.getElementById('navMenu').classList.toggle('active');
             });
             
-            // Focar no input do chat
-            document.getElementById('user-input').focus();
+            // Animar barras de progresso
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(fill => {
+                    const width = fill.style.width;
+                    fill.style.width = '0';
+                    setTimeout(() => {
+                        fill.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+            
+            // Fechar modais ao clicar fora
+            document.addEventListener('click', function(event) {
+                const solutionModal = document.getElementById('solutionModal');
+                const explanationModal = document.getElementById('explanationModal');
+                
+                if (event.target === solutionModal) {
+                    closeModal();
+                }
+                
+                if (event.target === explanationModal) {
+                    closeExplanationModal();
+                }
+            });
         });
-
-        // ===== FUNÇÕES EXISTENTES (simplificadas para exemplo) =====
-        function loadDashboard() {
-            // Implementação simplificada
-            const problemsList = document.getElementById('problems-list');
-            problemsList.innerHTML = `
-                <div class="problem-item">
-                    <div class="problem-header">
-                        <div class="problem-title">Equação Quadrática</div>
-                        <div class="difficulty-badge medium">medium</div>
-                    </div>
-                    <div class="problem-text">Resolva a equação: $x^2 - 5x + 6 = 0$</div>
-                    <div class="problem-actions">
-                        <button class="btn btn-primary btn-small" onclick="sendSuggestion('Resolva a equação x² - 5x + 6 = 0')">
-                            <i class="fas fa-play"></i> Resolver com IA
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function loadExercises() {
-            // Implementação simplificada
-        }
     </script>
 </body>
 </html>
