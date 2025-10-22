@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocoTotal - Plataforma de Estudos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            /* Cores Light Mode */
+            --primary-light: #2c3e50;
+            --secondary-light: #34495e;
+            --accent-light: #3498db;
+            --success-light: #27ae60;
+            --warning-light: #f39c12;
+            --error-light: #e74c3c;
+            --light-light: #ecf0f1;
+            --dark-light: #2c3e50;
+            --border-light: #bdc3c7;
+            --text-light: #2c3e50;
+            --background-light: #f8f9fa;
+            --card-light: #ffffff;
+            
+            /* Cores Dark Mode */
+            --primary-dark: #ecf0f1;
+            --secondary-dark: #bdc3c7;
+            --accent-dark: #3498db;
+            --success-dark: #2ecc71;
+            --warning-dark: #f1c40f;
+            --error-dark: #e74c3c;
+            --light-dark: #2c3e50;
+            --dark-dark: #ecf0f1;
+            --border-dark: #34495e;
+            --text-dark: #ecf0f1;
+            --background-dark: #1a1a2e;
+            --card-dark: #2c3e50;
+        }
+
+        /* Variáveis ativas - padrão light mode */
+        :root {
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
+            --accent: var(--accent-light);
+            --success: var(--success-light);
+            --warning: var(--warning-light);
+            --error: var(--error-light);
+            --light: var(--light-light);
+            --dark: var(--dark-light);
+            --border: var(--border-light);
+            --text: var(--text-light);
+            --background: var(--background-light);
+            --card: var(--card-light);
+        }
+
+        /* Dark mode */
+        .dark-mode {
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+            --accent: var(--accent-dark);
+            --success: var(--success-dark);
+            --warning: var(--warning-dark);
+            --error: var(--error-dark);
+            --light: var(--light-dark);
+            --dark: var(--dark-dark);
+            --border: var(--border-dark);
+            --text: var(--text-dark);
+            --background: var(--background-dark);
+            --card: var(--card-dark);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Navegação */
+        header {
+            background-color: var(--card);
+            border-bottom: 2px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .main-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+        
+        .main-logo i {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+        
+        .main-logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            margin-left: 3rem;
+        }
+        
+        .nav-item {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: rotate(15deg);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Menu Mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+        }
+        
+        /* Páginas */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 900px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: var(--card);
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .card-header i {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .card-header h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+        
+        .progress-container {
+            margin-top: 1rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent);
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .problems-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .problem-item {
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            transition: border-color 0.3s, transform 0.3s;
+            background: var(--card);
+        }
+        
+        .problem-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+        
+        .problem-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .difficulty-badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .easy { background-color: rgba(39, 174, 96, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .medium { background-color: rgba(243, 156, 18, 0.1); color: var(--warning); border: 1px solid var(--warning); }
+        .hard { background-color: rgba(231, 76, 60, 0.1); color: var(--error); border: 1px solid var(--error); }
+        
+        .problem-text {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background-color: var(--light);
+            border-radius: 4px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .problem-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-outline {
+            background-color: var(--card);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-small {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Chat e IA - MELHORIAS */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            background-color: var(--card);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .message {
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            max-width: 85%;
+            animation: messageSlide 0.3s ease;
+            position: relative;
+        }
+        
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background-color: var(--accent);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .assistant-message {
+            background-color: var(--light);
+            color: var(--text);
+            border-bottom-left-radius: 2px;
+            border: 1px solid var(--border);
+        }
+        
+        .message-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .message-action {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .message-action:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .math-expression {
+            background-color: var(--card);
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-family: 'Times New Roman', serif;
+            border: 1px solid var(--border);
+            display: inline-block;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: var(--card);
+            color: var(--text);
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .send-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            width: 50px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .send-btn:hover {
+            background-color: var(--primary);
+        }
+        
+        .send-btn:disabled {
+            background-color: var(--border);
+            cursor: not-allowed;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            color: var(--secondary);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        
+        .typing-dots {
+            display: flex;
+            margin-left: 0.5rem;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+        
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .suggestion-chip {
+            background-color: var(--card);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggestion-chip:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .math-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            padding: 0.8rem;
+            background-color: var(--light);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+        
+        .math-tool {
+            background-color: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Times New Roman', serif;
+            transition: all 0.3s;
+        }
+        
+        .math-tool:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .step-by-step {
+            background-color: var(--light);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .step {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background-color: var(--accent);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 0.8rem;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .ai-thinking {
+            background-color: rgba(52, 152, 219, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            font-style: italic;
+            color: var(--accent);
+        }
+        
+        .ai-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .ai-option {
+            background-color: var(--card);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ai-option:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .visual-explanation {
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+        
+        .visual-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .visual-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 150px;
+            background-color: var(--card);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid var(--accent);
+            position: relative;
+        }
+        
+        .triangle-label {
+            position: absolute;
+            font-size: 0.7rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .triangle-a {
+            bottom: -110px;
+            left: -10px;
+        }
+        
+        .triangle-b {
+            bottom: -50px;
+            left: -60px;
+        }
+        
+        .triangle-c {
+            bottom: -50px;
+            right: -60px;
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--success);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--secondary);
+            margin-top: 0.3rem;
+            text-align: right;
+        }
+        
+        .assistant-message .message-time {
+            text-align: left;
+        }
+        
+        /* Restante do CSS permanece igual */
+        /* ... (outros estilos) ... */
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .nav-menu {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                margin: 1rem 0 0 0;
+                gap: 0.5rem;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .header-controls {
+                margin-left: auto;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .math-tools {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="main-logo" onclick="navigateTo('dashboard')">
+            <i class="fas fa-bullseye"></i>
+            <h1>FocoTotal</h1>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav class="nav-menu" id="navMenu">
+            <a class="nav-item active" onclick="navigateTo('dashboard')">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a class="nav-item" onclick="navigateTo('conteudos')">
+                <i class="fas fa-book"></i> Conteúdos
+            </a>
+            <a class="nav-item" onclick="navigateTo('exercicios')">
+                <i class="fas fa-pencil-alt"></i> Exercícios
+            </a>
+            <a class="nav-item" onclick="navigateTo('perfil')">
+                <i class="fas fa-user"></i> Perfil
+            </a>
+        </nav>
+        
+        <div class="header-controls">
+            <button class="theme-toggle" id="themeToggle" title="Alternar tema">
+                <i class="fas fa-moon"></i>
+            </button>
+            
+            <div class="user-info">
+                <div class="user-avatar">JS</div>
+                <div>
+                    <div style="font-weight: 600;">João Silva</div>
+                    <div style="font-size: 0.9rem; color: var(--secondary);">Nível: Avançado</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Página Dashboard -->
+    <div class="page active" id="dashboard-page">
+        <div class="container">
+            <div class="dashboard">
+                <div class="content-area">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-line"></i>
+                            <h2>Meu Progresso</h2>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" id="problems-solved">24</div>
+                                <div class="stat-label">Problemas Resolvidos</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="accuracy-rate">87%</div>
+                                <div class="stat-label">Taxa de Acerto</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 87%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="concepts-mastered">15</div>
+                                <div class="stat-label">Conceitos Dominados</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="study-time">12h</div>
+                                <div class="stat-label">Tempo de Estudo</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 40%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-tasks"></i>
+                            <h2>Problemas Recomendados</h2>
+                        </div>
+                        
+                        <div class="problems-list" id="problems-list">
+                            <!-- Problemas serão carregados aqui -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="assistant-area">
+                    <div class="card">
+                        <div class="chat-header">
+                            <div class="ai-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div>
+                                <h2>Assistente FocoTotal IA</h2>
+                                <div class="ai-status">
+                                    <div class="status-dot"></div>
+                                    <span>Online - Pronto para ajudar</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="message assistant-message">
+                                    <p>Olá! Sou seu assistente de matemática inteligente. Posso ajudar com:</p>
+                                    <ul>
+                                        <li>✅ Resolução de problemas passo a passo</li>
+                                        <li>✅ Explicação de conceitos complexos</li>
+                                        <li>✅ Demonstrações matemáticas</li>
+                                        <li>✅ Criação de exercícios personalizados</li>
+                                        <li>✅ Visualizações gráficas e geométricas</li>
+                                    </ul>
+                                    <p>Como posso ajudá-lo hoje?</p>
+                                    
+                                    <div class="suggestions">
+                                        <div class="suggestion-chip" onclick="sendSuggestion('Resolva a equação x² - 5x + 6 = 0')">Equação Quadrática</div>
+                                        <div class="suggestion-chip" onclick="sendSuggestion('Explique o Teorema de Pitágoras')">Teorema de Pitágoras</div>
+                                        <div class="suggestion-chip" onclick="sendSuggestion('Calcule a derivada de sen(x)cos(x)')">Derivada</div>
+                                        <div class="suggestion-chip" onclick="sendSuggestion('Crie um exercício de probabilidade')">Exercício Personalizado</div>
+                                    </div>
+                                    <div class="message-time" id="message-time-0">Agora</div>
+                                </div>
+                            </div>
+                            
+                            <div class="math-tools">
+                                <div style="width: 100%; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--secondary);">Ferramentas Matemáticas:</div>
+                                <button class="math-tool" onclick="insertSymbol('+')">+</button>
+                                <button class="math-tool" onclick="insertSymbol('-')">-</button>
+                                <button class="math-tool" onclick="insertSymbol('×')">×</button>
+                                <button class="math-tool" onclick="insertSymbol('÷')">÷</button>
+                                <button class="math-tool" onclick="insertSymbol('=')">=</button>
+                                <button class="math-tool" onclick="insertSymbol('√')">√</button>
+                                <button class="math-tool" onclick="insertSymbol('π')">π</button>
+                                <button class="math-tool" onclick="insertSymbol('²')">x²</button>
+                                <button class="math-tool" onclick="insertSymbol('∠')">∠</button>
+                                <button class="math-tool" onclick="insertSymbol('∞')">∞</button>
+                                <button class="math-tool" onclick="insertSymbol('∫')">∫</button>
+                                <button class="math-tool" onclick="insertSymbol('∑')">∑</button>
+                                <button class="math-tool" onclick="insertSymbol('θ')">θ</button>
+                                <button class="math-tool" onclick="insertSymbol('α')">α</button>
+                                <button class="math-tool" onclick="insertSymbol('β')">β</button>
+                                <button class="math-tool" onclick="insertSymbol('γ')">γ</button>
+                            </div>
+                            
+                            <div class="chat-input-container">
+                                <input type="text" class="chat-input" id="user-input" placeholder="Digite sua pergunta matemática..." onkeypress="handleKeyPress(event)">
+                                <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restante do HTML permanece igual -->
+    <!-- ... (outras páginas) ... -->
+
+    <footer>
+        <p>FocoTotal &copy; 2023 - Plataforma de Estudos de Matemática</p>
+    </footer>
+
+    <script>
+        // ===== SISTEMA DE NAVEGAÇÃO =====
+        function navigateTo(page) {
+            // Atualizar navegação
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Mostrar página
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            document.getElementById(`${page}-page`).classList.add('active');
+            
+            // Carregar conteúdo específico da página
+            if (page === 'dashboard') {
+                loadDashboard();
+            } else if (page === 'exercicios') {
+                loadExercises();
+            }
+            
+            // Fechar menu mobile se estiver aberto
+            document.getElementById('navMenu').classList.remove('active');
+        }
+
+        // ===== SISTEMA DE TEMA =====
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const icon = themeToggle.querySelector('i');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('focototal-theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('focototal-theme', 'dark');
+            }
+        }
+
+        // ===== MELHORIAS NO ASSISTENTE IA =====
+        let chatHistory = [];
+        let isAIThinking = false;
+
+        // Função para obter o horário atual formatado
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Função para adicionar mensagem ao chat
+        function addMessage(text, sender, messageId = null) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            const messageIdValue = messageId || `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            
+            messageElement.className = `message ${sender}-message`;
+            messageElement.id = messageIdValue;
+            
+            // Processar expressões matemáticas
+            let processedText = text;
+            const mathExpressions = text.match(/\$[^$]+\$/g) || [];
+            mathExpressions.forEach(expr => {
+                const cleanExpr = expr.replace(/\$/g, '');
+                processedText = processedText.replace(
+                    expr, 
+                    `<div class="math-expression">${cleanExpr}</div>`
+                );
+            });
+            
+            // Adicionar ações para mensagens do assistente
+            let actionsHTML = '';
+            if (sender === 'assistant') {
+                actionsHTML = `
+                    <div class="message-actions">
+                        <button class="message-action" onclick="copyMessage('${messageIdValue}')">
+                            <i class="fas fa-copy"></i> Copiar
+                        </button>
+                        <button class="message-action" onclick="regenerateResponse('${messageIdValue}')">
+                            <i class="fas fa-sync-alt"></i> Regenerar
+                        </button>
+                        <button class="message-action" onclick="explainFurther('${messageIdValue}')">
+                            <i class="fas fa-search-plus"></i> Detalhar
+                        </button>
+                    </div>
+                `;
+            }
+            
+            messageElement.innerHTML = `
+                ${processedText}
+                ${actionsHTML}
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            
+            chatMessages.appendChild(messageElement);
+            
+            // Scroll para o final
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Adicionar ao histórico
+            chatHistory.push({
+                id: messageIdValue,
+                text: text,
+                sender: sender,
+                timestamp: new Date()
+            });
+            
+            return messageIdValue;
+        }
+
+        // Função para copiar mensagem
+        function copyMessage(messageId) {
+            const messageElement = document.getElementById(messageId);
+            const textToCopy = messageElement.textContent.replace(/CopiarRegenerarDetalhar/g, '').trim();
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Feedback visual
+                const copyBtn = messageElement.querySelector('.fa-copy').closest('.message-action');
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                }, 2000);
+            });
+        }
+
+        // Função para regenerar resposta
+        function regenerateResponse(messageId) {
+            const messageIndex = chatHistory.findIndex(msg => msg.id === messageId);
+            if (messageIndex > 0) {
+                const previousMessage = chatHistory[messageIndex - 1];
+                if (previousMessage.sender === 'user') {
+                    // Remove a resposta atual
+                    document.getElementById(messageId).remove();
+                    chatHistory = chatHistory.filter(msg => msg.id !== messageId);
+                    
+                    // Envia a mensagem novamente
+                    sendMessage(previousMessage.text, true);
+                }
+            }
+        }
+
+        // Função para detalhar explicação
+        function explainFurther(messageId) {
+            const message = chatHistory.find(msg => msg.id === messageId);
+            if (message) {
+                sendMessage(`Explique com mais detalhes: ${message.text}`, true);
+            }
+        }
+
+        // Função para enviar mensagem
+        function sendMessage(message = null, isRegeneration = false) {
+            if (isAIThinking) return;
+            
+            const userInput = document.getElementById('user-input');
+            const messageText = message || userInput.value.trim();
+            
+            if (!messageText) return;
+            
+            // Adicionar mensagem do usuário
+            addMessage(messageText, 'user');
+            
+            // Limpar input se não for regeneração
+            if (!message) userInput.value = '';
+            
+            // Desabilitar botão de enviar
+            isAIThinking = true;
+            document.getElementById('send-btn').disabled = true;
+            
+            // Simular resposta da IA
+            simulateAIResponse(messageText, isRegeneration);
+        }
+
+        // Função para inserir símbolo matemático
+        function insertSymbol(symbol) {
+            const userInput = document.getElementById('user-input');
+            userInput.value += symbol;
+            userInput.focus();
+        }
+
+        // Função para enviar sugestão
+        function sendSuggestion(text) {
+            document.getElementById('user-input').value = text;
+            sendMessage();
+        }
+
+        // Função para lidar com pressionar Enter
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Função para simular resposta da IA
+        function simulateAIResponse(userMessage, isRegeneration = false) {
+            const chatMessages = document.getElementById('chat-messages');
+            
+            // Adicionar indicador de digitação
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.id = 'typing-indicator';
+            typingIndicator.innerHTML = `
+                Assistente FocoTotal está pensando
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            chatMessages.appendChild(typingIndicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Simular tempo de resposta mais realista
+            const thinkingTime = Math.random() * 1500 + 1000; // Entre 1 e 2.5 segundos
+            
+            setTimeout(() => {
+                chatMessages.removeChild(typingIndicator);
+                
+                // Gerar resposta baseada na mensagem do usuário
+                const response = generateAIResponse(userMessage, isRegeneration);
+                addMessage(response, 'assistant');
+                
+                // Reabilitar botão de enviar
+                isAIThinking = false;
+                document.getElementById('send-btn').disabled = false;
+            }, thinkingTime);
+        }
+
+        // Função para gerar resposta da IA
+        function generateAIResponse(userMessage, isRegeneration) {
+            // Respostas pré-definidas para diferentes tipos de perguntas
+            let response = '';
+            
+            if (userMessage.includes('equação') || userMessage.includes('x²') || userMessage.includes('quadrática')) {
+                response = `
+                    <p>Vamos resolver a equação quadrática passo a passo:</p>
+                    <div class="step-by-step">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div>Escreva a equação: <div class="math-expression">x^2 - 5x + 6 = 0</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div>Identifique os coeficientes: a = 1, b = -5, c = 6</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div>Calcule o discriminante: <div class="math-expression">Δ = b² - 4ac = (-5)² - 4(1)(6) = 25 - 24 = 1</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div>Aplique a fórmula quadrática: <div class="math-expression">x = [-b ± √Δ] / 2a</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div>Calcule as raízes: <div class="math-expression">x = [5 ± 1] / 2</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div>Portanto: <div class="math-expression">x₁ = (5 + 1)/2 = 3</div> e <div class="math-expression">x₂ = (5 - 1)/2 = 2</div></div>
+                        </div>
+                    </div>
+                    <p><strong>Resposta:</strong> As soluções são <div class="math-expression">x = 2</div> e <div class="math-expression">x = 3</div>.</p>
+                    
+                    <div class="ai-options">
+                        <div class="ai-option" onclick="sendSuggestion('Mostre graficamente esta equação')">
+                            <i class="fas fa-chart-line"></i> Ver Gráfico
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Explique o significado do discriminante')">
+                            <i class="fas fa-lightbulb"></i> Discriminante
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Resolva outra equação quadrática')">
+                            <i class="fas fa-calculator"></i> Novo Exercício
+                        </div>
+                    </div>
+                `;
+            } else if (userMessage.includes('Pitágoras')) {
+                response = `
+                    <p>O <strong>Teorema de Pitágoras</strong> estabelece que em um triângulo retângulo, o quadrado da hipotenusa é igual à soma dos quadrados dos catetos.</p>
+                    
+                    <div class="math-expression">a² + b² = c²</div>
+                    
+                    <p>Onde:</p>
+                    <ul>
+                        <li><strong>a</strong> e <strong>b</strong> são os catetos (lados que formam o ângulo reto)</li>
+                        <li><strong>c</strong> é a hipotenusa (lado oposto ao ângulo reto)</li>
+                    </ul>
+                    
+                    <div class="visual-explanation">
+                        <div class="visual-title">Representação Visual:</div>
+                        <div class="visual-content">
+                            <div class="triangle">
+                                <div class="triangle-label triangle-a">a</div>
+                                <div class="triangle-label triangle-b">b</div>
+                                <div class="triangle-label triangle-c">c</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>Este teorema é fundamental na geometria e tem aplicações em diversas áreas como arquitetura, engenharia, física e navegação.</p>
+                    
+                    <div class="ai-options">
+                        <div class="ai-option" onclick="sendSuggestion('Demonstre o Teorema de Pitágoras')">
+                            <i class="fas fa-shapes"></i> Demonstração
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Resolva um problema com o Teorema de Pitágoras')">
+                            <i class="fas fa-pencil-alt"></i> Exercício Prático
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Aplicações do Teorema de Pitágoras')">
+                            <i class="fas fa-rocket"></i> Aplicações
+                        </div>
+                    </div>
+                `;
+            } else if (userMessage.includes('derivada') || userMessage.includes('sen(x)cos(x)')) {
+                response = `
+                    <p>Vamos calcular a derivada de <div class="math-expression">f(x) = sen(x)cos(x)</div> usando a regra do produto:</p>
+                    
+                    <div class="step-by-step">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div>Identifique as funções: <div class="math-expression">u = sen(x)</div> e <div class="math-expression">v = cos(x)</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div>Calcule as derivadas: <div class="math-expression">u' = cos(x)</div> e <div class="math-expression">v' = -sen(x)</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div>Aplique a regra do produto: <div class="math-expression">(uv)' = u'v + uv'</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div>Substitua: <div class="math-expression">f'(x) = cos(x)cos(x) + sen(x)(-sen(x))</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div>Simplifique: <div class="math-expression">f'(x) = cos²(x) - sen²(x)</div></div>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Resposta:</strong> <div class="math-expression">f'(x) = cos²(x) - sen²(x)</div></p>
+                    
+                    <p>Podemos simplificar ainda mais usando identidades trigonométricas:</p>
+                    <div class="math-expression">cos²(x) - sen²(x) = cos(2x)</div>
+                    
+                    <p>Portanto, <div class="math-expression">f'(x) = cos(2x)</div></p>
+                    
+                    <div class="ai-options">
+                        <div class="ai-option" onclick="sendSuggestion('Explique a regra do produto')">
+                            <i class="fas fa-graduation-cap"></i> Regra do Produto
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Mostre o gráfico desta função')">
+                            <i class="fas fa-chart-line"></i> Ver Gráfico
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Calcule outra derivada')">
+                            <i class="fas fa-calculator"></i> Novo Exercício
+                        </div>
+                    </div>
+                `;
+            } else if (userMessage.includes('exercício') || userMessage.includes('crie') || userMessage.includes('probabilidade')) {
+                response = `
+                    <p>Claro! Vou criar um exercício personalizado de probabilidade para você:</p>
+                    
+                    <div class="problem-text">
+                        <strong>Problema:</strong> Uma urna contém 5 bolas vermelhas, 3 bolas azuis e 2 bolas verdes. Se retirarmos 2 bolas aleatoriamente sem reposição, qual a probabilidade de:
+                        <ol>
+                            <li>Ambas serem vermelhas?</li>
+                            <li>Pelo menos uma ser azul?</li>
+                            <li>Uma ser vermelha e outra ser azul?</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="ai-thinking">
+                        <p><i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Use conceitos de probabilidade condicional e combinações para resolver este problema.</p>
+                    </div>
+                    
+                    <p>Quer que eu resolva algum desses itens passo a passo?</p>
+                    
+                    <div class="ai-options">
+                        <div class="ai-option" onclick="sendSuggestion('Resolva o item 1 passo a passo')">
+                            <i class="fas fa-play"></i> Resolver Item 1
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Resolva o item 2 passo a passo')">
+                            <i class="fas fa-play"></i> Resolver Item 2
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Resolva o item 3 passo a passo')">
+                            <i class="fas fa-play"></i> Resolver Item 3
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Crie outro exercício de probabilidade')">
+                            <i class="fas fa-plus"></i> Novo Exercício
+                        </div>
+                    </div>
+                `;
+            } else if (userMessage.includes('gráfico') || userMessage.includes('grafico')) {
+                response = `
+                    <p>Entendi que você gostaria de uma representação gráfica. Infelizmente, não posso gerar imagens diretamente, mas posso descrever como seria o gráfico e dar instruções para construí-lo.</p>
+                    
+                    <p>Para visualizar funções matemáticas, recomendo usar:</p>
+                    <ul>
+                        <li><strong>GeoGebra:</strong> Ótimo para gráficos 2D e 3D</li>
+                        <li><strong>Desmos:</strong> Excelente para gráficos interativos</li>
+                        <li><strong>Python com Matplotlib:</strong> Para visualizações mais avançadas</li>
+                    </ul>
+                    
+                    <p>Posso ajudar explicando como seria o gráfico da função que você mencionou ou fornecendo as coordenadas importantes.</p>
+                    
+                    <div class="ai-options">
+                        <div class="ai-option" onclick="sendSuggestion('Descreva o gráfico de x² - 5x + 6')">
+                            <i class="fas fa-chart-line"></i> Descrever Gráfico
+                        </div>
+                        <div class="ai-option" onclick="sendSuggestion('Explique como fazer gráficos no GeoGebra')">
+                            <i class="fas fa-desktop"></i> Tutorial GeoGebra
+                        </div>
+                    </div>
+                `;
+            } else {
+                response = `
+                    <p>Entendi sua pergunta sobre <strong>"${userMessage}"</strong>. Aqui está uma explicação detalhada:</p>
+                    
+                    <div class="ai-thinking">
+                        <p>Com base no seu interesse, posso fornecer:</p>
+                        <ul>
+                            <li>Explicação conceitual aprofundada</li>
+                            <li>Exemplos práticos e aplicações</li>
+                            <li>Exercícios relacionados para praticar</li>
+                            <li>Visualizações e analogias para melhor compreensão</li>
+                        </ul>
+                    </div>
+                    
+                    <p>Para um atendimento mais específico, você pode:</p>
+                    
+                    <div class="suggestions">
+                        <div class="suggestion-chip" onclick="sendSuggestion('Explique com exemplos práticos')">Exemplos Práticos</div>
+                        <div class="suggestion-chip" onclick="sendSuggestion('Mostre a aplicação disso')">Aplicações</div>
+                        <div class="suggestion-chip" onclick="sendSuggestion('Crie um exercício sobre isso')">Exercício</div>
+                        <div class="suggestion-chip" onclick="sendSuggestion('Explique de forma mais simples')">Explicação Simples</div>
+                    </div>
+                    
+                    <p>Ou me faça uma pergunta mais específica sobre o assunto!</p>
+                `;
+            }
+            
+            return response;
+        }
+
+        // ===== INICIALIZAÇÃO =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar tema salvo
+            const savedTheme = localStorage.getItem('focototal-theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').querySelector('i').classList.replace('fa-moon', 'fa-sun');
+            }
+            
+            // Carregar dashboard inicial
+            loadDashboard();
+            
+            // Adicionar event listeners
+            document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('navMenu').classList.toggle('active');
+            });
+            
+            // Focar no input do chat
+            document.getElementById('user-input').focus();
+        });
+
+        // ===== FUNÇÕES EXISTENTES (simplificadas para exemplo) =====
+        function loadDashboard() {
+            // Implementação simplificada
+            const problemsList = document.getElementById('problems-list');
+            problemsList.innerHTML = `
+                <div class="problem-item">
+                    <div class="problem-header">
+                        <div class="problem-title">Equação Quadrática</div>
+                        <div class="difficulty-badge medium">medium</div>
+                    </div>
+                    <div class="problem-text">Resolva a equação: $x^2 - 5x + 6 = 0$</div>
+                    <div class="problem-actions">
+                        <button class="btn btn-primary btn-small" onclick="sendSuggestion('Resolva a equação x² - 5x + 6 = 0')">
+                            <i class="fas fa-play"></i> Resolver com IA
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadExercises() {
+            // Implementação simplificada
+        }
+    </script>
+</body>
+</html>
